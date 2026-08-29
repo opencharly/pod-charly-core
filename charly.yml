@@ -1620,7 +1620,6 @@ cmd-skill:
             |--------|---------|-------------|
             | Run command | `charly cmd <image> "command"` | Execute command in running container |
             | With instance | `charly cmd <image> "command" -i 2` | Target specific instance |
-            | With env vars | `charly cmd <image> "command" -e KEY=VALUE` | Pass environment variables |
 
             ## Usage
 
@@ -1629,7 +1628,7 @@ cmd-skill:
             charly cmd fedora "uname -a"
 
             # Run with environment variables
-            charly cmd jupyter "python script.py" -e CUDA_VISIBLE_DEVICES=0
+            charly cmd jupyter "python script.py"
 
             # Target a specific instance
             charly cmd ollama "ollama list" -i 2
@@ -1640,7 +1639,6 @@ cmd-skill:
             | Flag | Description |
             |------|-------------|
             | `-i, --instance INSTANCE` | Target a specific container instance (default: 1) |
-            | `-e, --env KEY=VALUE` | Pass environment variables to the command |
             | `--sidecar NAME` | Run in the named SIDECAR container (`charly-<box>[-<inst>]-<name>`) instead of the app container |
 
             ## Behavior
@@ -1776,7 +1774,7 @@ deploy-skill:
             - `--allow-root-tasks` — opt-in for arbitrary `cmd: user: root` task bodies
             - `--skip-incompatible` — skip layers lacking a host-matching format section instead of failing
             - `--builder-image <ref>` — override the compile-builder image
-            - `--yes` / `-y` — all three gates plus skip sudo preflight
+            - `--assume-yes` / `-y` — all three gates plus skip sudo preflight
 
             ### `charly fleet del <name>`
 
@@ -2865,7 +2863,6 @@ logs-skill:
             |--------|---------|-------------|
             | View logs | `charly logs <image>` | Show recent logs |
             | Follow logs | `charly logs <image> -f` | Stream logs in real time |
-            | Tail N lines | `charly logs <image> -n 50` | Show last N lines |
             | With instance | `charly logs <image> -i 2` | Logs from specific instance |
 
             ## Usage
@@ -2878,13 +2875,13 @@ logs-skill:
             charly logs ollama -f
 
             # Show last 100 lines
-            charly logs immich -n 100
+            charly logs immich
 
             # Logs from a specific instance
             charly logs openclaw -i 2
 
             # Combine follow with tail
-            charly logs comfyui -f -n 50
+            charly logs comfyui -f
             ```
 
             ## Flags
@@ -2892,7 +2889,6 @@ logs-skill:
             | Flag | Description |
             |------|-------------|
             | `-f, --follow` | Stream logs continuously |
-            | `-n, --lines LINES` | Number of recent lines to show |
             | `-i, --instance INSTANCE` | Target a specific container instance |
             | `--sidecar NAME` | Show the named SIDECAR container's logs instead of the app container's |
 
@@ -3022,7 +3018,7 @@ service-skill:
             | Stop service | `charly stop <image>` | Stop running service |
             | Configure deployment | `charly config <image>` | Generate .container file, daemon-reload |
             | Remove deployment | `charly config remove <image>` | Disable quadlet service (quadlet file remains) |
-            | Service status | `charly status [<image>]` | Structured status table (IMAGE, STATUS, PORTS, TUNNEL, DEVICES, TOOLS); IMAGE merges `image[/instance]` |
+            | Service status | `charly status [<image>]` | Structured status table (KIND, IMAGE, STATUS, PORTS, TUNNEL, DEVICES, TOOLS); IMAGE merges `image[/instance]` |
             | All services | `charly status --all` | Include stopped/enabled services in listing |
             | Detailed status | `charly status <image>` | Detailed key-value view with live tool probes |
             | JSON output | `charly status --json` | Machine-readable JSON output |
@@ -3234,15 +3230,16 @@ service-skill:
             ## Status Output
 
             `charly status` shows a structured table of all charly containers. The table
-            has a TUNNEL column and the IMAGE column merges `image[/instance]`:
+            leads with a KIND column (the substrate discriminator), has a TUNNEL column, and the
+            IMAGE column merges `image[/instance]`:
 
             ```
-            IMAGE                              STATUS   PORTS                 TUNNEL                  DEVICES  TOOLS
-            sway-browser-vnc                   running  5900,9222,9224        -                       dri,gpu  cdp:9222,dbus,charly,supervisord,sway,vnc:5900,wl
-            selkies-desktop/work               running  3001,9240             tailscale (all ports)   -        cdp:9240,dbus,charly,supervisord,wl
-            selkies-desktop/personal           running  3002,9241             tailscale (all ports)   -        cdp:9241,dbus,charly,supervisord,wl
-            ollama                             running  11434                 -                       gpu      dbus,charly,supervisord
-            jupyter                            stopped  8888                  tailscale (all ports)   -        -
+            KIND  IMAGE                        STATUS   PORTS                 TUNNEL                  DEVICES  TOOLS
+            pod   sway-browser-vnc             running  5900,9222,9224        -                       dri,gpu  cdp:9222,dbus,charly,supervisord,sway,vnc:5900,wl
+            pod   selkies-desktop/work         running  3001,9240             tailscale (all ports)   -        cdp:9240,dbus,charly,supervisord,wl
+            pod   selkies-desktop/personal     running  3002,9241             tailscale (all ports)   -        cdp:9241,dbus,charly,supervisord,wl
+            pod   ollama                       running  11434                 -                       gpu      dbus,charly,supervisord
+            pod   jupyter                      stopped  8888                  tailscale (all ports)   -        -
             ```
 
             - **IMAGE**: `image` for base deploys, `image/instance` for multi-
@@ -3494,7 +3491,7 @@ shell-skill:
 
             1. **Deploy config `env:`** (charly.yml / charly.yml) -- lowest priority
             2. **Deploy config `env_file:`** (charly.yml / charly.yml)
-            3. **Workspace `.env`** file -- auto-loaded from `-w` directory
+            3. **Workspace `.env`** file -- auto-loaded from the deployment's workspace directory
             4. **CLI `--env-file`** flag
             5. **CLI `-e`** flags -- highest priority
 
@@ -3546,7 +3543,7 @@ shell-skill:
             | Container state | Running only | Running or starts new |
             | Notification | Yes (`--[no-]notify`) | No |
             | Process model | `exec.Command` (returns) | `syscall.Exec` (replaces) |
-            | Workspace mount | No | Yes (`-w`) |
+            | Workspace mount | No | Yes (from the deployment's workspace, not a flag) |
             | Device auto-detect | No | Yes |
             | Use case | Quick commands + notification | Full container setup + command |
 
@@ -3873,7 +3870,7 @@ stop-skill:
             - **Direct mode:** Runs `<engine> stop <container>`
             - Does not remove the container or its configuration -- use `charly remove` for that
             - Does not disable the service -- the container may restart on next login if enabled
-            - To stop and disable: `charly start <image> --enable=false` then `charly stop <image>`
+            - To stop and disable: `charly stop <image>` then `charly config remove <image>` (which disables the quadlet service; `charly start` has no `--enable` flag, and there is no `enable`/`disable` verb)
             - **By design**, plain `charly stop` does NOT tear down encrypted FUSE mounts — the `charly-enc-*.scope` units are deliberately decoupled from the container service cgroup so they survive `KillMode=mixed` on stop and let the next start fast-path through the `charly config mount` short-circuit. Use `--unmount` for the full teardown semantics.
 
             ## Cross-References
