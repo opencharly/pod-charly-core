@@ -1,7 +1,7 @@
 version: 2026.232.0520
 charly-core:
     candy:
-        version: 2026.243.0100
+        version: 2026.243.0826
         description: |-
             Concept candy owning the charly-core command skills (start/stop/status/logs/shell/ssh/deploy/…). Owns its family's `skill:` kind entities (sibling nodes in this file) — the
             the plugins→candies migration; candy/plugin-marketplace regenerates the marketplace
