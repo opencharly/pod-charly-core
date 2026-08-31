@@ -23,8 +23,8 @@ charly-config-skill:
         family: core
         owner: charly-core
         description: |-
-            MUST be invoked before any work involving: charly config commands, image deployment setup, quadlet generation, secrets provisioning, encrypted volumes, data seeding, or volume backing configuration.
-            Named `charly-config` (not `config`) to disambiguate from Claude Code's built-in `/config` slash command.
+            `charly config` commands, image deployment setup, quadlet generation, secrets provisioning, encrypted volumes, data seeding, or volume backing configuration. Named `charly-config` (not `config`) to disambiguate from Claude Code's built-in `/config`.
+
         content: |
             # charly config -- Image Deployment Configuration
 
@@ -630,9 +630,8 @@ charly-doctor-skill:
         family: core
         owner: charly-core
         description: |-
-            Host dependency checker and hardware detector for the `charly doctor` CLI verb.
-            Use when diagnosing host setup, checking dependencies, or verifying GPU detection.
-            Named `charly-doctor` (not `doctor`) to disambiguate from Claude Code's built-in `/doctor` slash command.
+            Host dependency checker and hardware detector for the `charly doctor` CLI verb. Use when diagnosing host setup, checking dependencies, or verifying GPU detection. Named `charly-doctor` (not `doctor`).
+
         content: |
             # Doctor - Host Dependency Check
 
@@ -785,9 +784,8 @@ charly-status-skill:
         family: core
         owner: charly-core
         description: |-
-            Service status display with tool probes and device detection.
-            MUST be invoked before any work involving: charly status command, checking container state, tool availability, port mapping, or JSON status output.
-            Named `charly-status` (not `status`) to disambiguate from Claude Code's built-in `/status` slash command.
+            Service status display with tool probes and device detection — `charly status`, checking container state, tool availability, port mapping, or JSON status output. Named `charly-status` (not `status`).
+
         content: |
             # charly status -- Service Status Display
 
@@ -1145,9 +1143,8 @@ charly-update-skill:
         family: core
         owner: charly-core
         description: |-
-            Update image and restart service with data sync.
-            MUST be invoked before any work involving: charly update command, pulling new image versions, data seeding, force-seed, or updating deployed services.
-            Named `charly-update` (not `update`) to disambiguate from Claude Code's built-in `/update`/`/upgrade` slash commands.
+            Update image and restart service with data sync — `charly update`, pulling new image versions, data seeding, force-seed, or updating deployed services. Named `charly-update` (not `update`).
+
         content: |
             # charly update -- Update Image and Restart
 
@@ -1320,9 +1317,8 @@ charly-version-skill:
         family: core
         owner: charly-core
         description: |-
-            Show charly CLI version information.
-            MUST be invoked before any work involving: charly version command or checking installed charly version.
-            Named `charly-version` (not `version`) to disambiguate from Claude Code's built-in `/version` slash command.
+            Show charly CLI version information — `charly version` or checking the installed charly version. Named `charly-version` (not `version`).
+
         content: |
             # charly version -- CLI Version
 
@@ -1377,10 +1373,8 @@ clean-skill:
         family: core
         owner: charly-core
         description: |-
-            Prune reusable build artifacts to defaults: retention (images, check runs) and
-            sweep one-time makepkg leftovers.
-            MUST be invoked before any work involving: charly clean, build-artifact retention,
-            keep_images / keep_check_runs, image-tag pruning, or .check run cleanup.
+            Prune reusable build artifacts to defaults: retention (images, check runs) and sweep one-time makepkg leftovers — `charly clean`, keep_images/keep_check_runs, image-tag pruning, .check run cleanup.
+
         triggers:
             - "`charly clean` / build-artifact retention / `keep_images` / `keep_check_runs` / image-tag pruning / `.check` run cleanup"
         content: |
@@ -1605,8 +1599,8 @@ cmd-skill:
         family: core
         owner: charly-core
         description: |-
-            Single command execution in a running container with D-Bus notification.
-            MUST be invoked before any work involving: charly cmd command, running commands in containers, or container exec with notifications.
+            Single command execution in a running container with D-Bus notification — `charly cmd`, running commands in containers, container exec with notifications.
+
         content: |
             # charly cmd -- Single Command Execution
 
@@ -1663,7 +1657,8 @@ deploy-skill:
         family: core
         owner: charly-core
         description: |-
-            MUST be invoked before any work involving: `charly fleet add`/`charly fleet del` commands, quadlet generation, volume backing, tunnels (Tailscale/Cloudflare), `add_candy:` overlay, or per-machine deploy overlays.
+            `charly fleet add`/`charly fleet del`, quadlet generation, volume backing, tunnels (Tailscale/Cloudflare), `add_candy:` overlay, or per-machine deploy overlays.
+
         triggers:
             - "`charly fleet add/del` / pod or container deploys"
             - "`kind: android` device / `target: android` deploy / `apk:` package format in candies / installing Android apps declaratively / remote-or-emulator adb endpoint / nested `pod \u2192 android`"
@@ -2848,8 +2843,8 @@ logs-skill:
         family: core
         owner: charly-core
         description: |-
-            Service log viewing for running containers.
-            MUST be invoked before any work involving: charly logs command, viewing container output, or debugging service issues.
+            Service log viewing for running containers — `charly logs`, viewing container output, debugging service issues.
+
         content: |
             # charly logs -- Service Log Viewing
 
@@ -2913,8 +2908,8 @@ remove-skill:
         family: core
         owner: charly-core
         description: |-
-            Remove service container, quadlet file, and charly.yml entry.
-            MUST be invoked before any work involving: charly remove command, cleaning up containers, removing quadlets, or purging volumes.
+            Remove service container, quadlet file, and charly.yml entry — `charly remove`, cleaning up containers, removing quadlets, purging volumes.
+
         content: |
             # charly remove -- Remove Service Container
 
@@ -2994,7 +2989,8 @@ service-skill:
         family: core
         owner: charly-core
         description: |-
-            MUST be invoked before any work involving: charly start/stop/status/logs/update/remove commands, charly config (deployment), init system service management, or container lifecycle.
+            `charly start/stop/status/logs/update/remove`, charly config (deployment), init system service management, or container lifecycle.
+
         content: |
             # Service - Service Management
 
@@ -3364,7 +3360,8 @@ shell-skill:
         family: core
         owner: charly-core
         description: |-
-            MUST be invoked before any work involving: charly shell command, interactive shells, command execution in containers, workspace mounts, TTY allocation, or port relay.
+            `charly shell`, interactive shells, command execution in containers, workspace mounts, TTY allocation, or port relay.
+
         content: |
             # Shell - Shell & Execution
 
@@ -3589,7 +3586,8 @@ ssh-skill:
         family: core
         owner: charly-core
         description: |-
-            Generic SSH support for Charly. Use for host-alias remote execution or `charly ssh tunnel` access to remote SPICE and VNC endpoints.
+            Generic SSH support for Charly — host-alias remote execution or `charly ssh tunnel` access to remote SPICE and VNC endpoints.
+
         content: |
             MUST be invoked before any work involving: `charly --host <alias|target>`
             remote execution, `charly ssh tunnel` port forwarding for external SPICE/VNC
@@ -3699,8 +3697,8 @@ start-skill:
         family: core
         owner: charly-core
         description: |-
-            Start a container as a background service.
-            MUST be invoked before any work involving: charly start command, launching containers, quadlet vs direct mode startup, or encrypted volume auto-mounting.
+            Start a container as a background service — `charly start`, launching containers, quadlet vs direct mode startup, encrypted volume auto-mounting.
+
         content: |
             # charly start -- Start Container Service
 
@@ -3825,8 +3823,8 @@ stop-skill:
         family: core
         owner: charly-core
         description: |-
-            Stop a running service container.
-            MUST be invoked before any work involving: charly stop command, stopping containers, or halting services.
+            Stop a running service container — `charly stop`, stopping containers, halting services.
+
         content: |
             # charly stop -- Stop Service Container
 
