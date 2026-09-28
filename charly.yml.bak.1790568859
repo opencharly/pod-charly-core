@@ -1,5 +1,7 @@
+version: 2026.232.0520
 charly-core:
     candy:
+        version: 2026.243.1545
         description: |-
             Concept candy owning the charly-core command skills (start/stop/status/logs/shell/ssh/deploy/…). Owns its family's `skill:` kind entities (sibling nodes in this file) — the
             the plugins→candies migration; candy/plugin-marketplace regenerates the marketplace
@@ -14,6 +16,7 @@ charly-core:
               context:
                 - build
               command: "true"
+
 charly-config-skill:
     skill:
         name: charly-config
@@ -21,6 +24,7 @@ charly-config-skill:
         owner: charly-core
         description: |-
             `charly config` commands, image deployment setup, quadlet generation, secrets provisioning, encrypted volumes, data seeding, or volume backing configuration. Named `charly-config` (not `config`) to disambiguate from Claude Code's built-in `/config`.
+
         content: |
             # charly config -- Image Deployment Configuration
 
@@ -619,6 +623,7 @@ charly-config-skill:
             Source: `candy/plugin-deploy-pod/config_setup.go` / `plugin.go` (the `charly config` command grammar + `OpConfigSetup` drive — the former `charly/config_image.go` is DELETED, K-wave 2), `sdk/deploykit/quadlet.go` / `quadlet_pod.go` + `candy/plugin-deploy-pod/config_write.go` (quadlet generation — the former `charly/quadlet.go`/`charly/quadlet_pod.go` are DELETED, K-wave 2), `sdk/deploykit/deploy_state.go` (deploy state — the former `charly/deploy.go` is DELETED, K-wave 2), `candy/plugin-pod/enc_cmd.go` (encrypted volumes — the former `charly/enc.go` is DELETED, K-wave 2), `candy/plugin-fleet/secrets_artifacts.go` (secret provisioning — the former `charly/secrets.go` is DELETED, K-wave 2), `sdk/deploykit/data.go` (data seeding — the former `charly/data.go` is DELETED, K-wave 2).
 
             Live-deploy verification: see /charly-check:check (the 11 Testing Standards) and /charly-internals:disposable.
+
 charly-doctor-skill:
     skill:
         name: charly-doctor
@@ -626,6 +631,7 @@ charly-doctor-skill:
         owner: charly-core
         description: |-
             Host dependency checker and hardware detector for the `charly doctor` CLI verb. Use when diagnosing host setup, checking dependencies, or verifying GPU detection. Named `charly-doctor` (not `doctor`).
+
         content: |
             # Doctor - Host Dependency Check
 
@@ -771,6 +777,7 @@ charly-doctor-skill:
             - GPU hardware detection
             - Whether a system is ready for charly operations
             - The `charly doctor` command
+
 charly-status-skill:
     skill:
         name: charly-status
@@ -778,6 +785,7 @@ charly-status-skill:
         owner: charly-core
         description: |-
             Service status display with tool probes and device detection — `charly status`, checking container state, tool availability, port mapping, or JSON status output. Named `charly-status` (not `status`).
+
         content: |
             # charly status -- Service Status Display
 
@@ -1128,6 +1136,7 @@ charly-status-skill:
             - `/charly-core:service` -- full service lifecycle management
 
             Live-deploy verification: see /charly-check:check (the 11 Testing Standards) and /charly-internals:disposable.
+
 charly-update-skill:
     skill:
         name: charly-update
@@ -1135,6 +1144,7 @@ charly-update-skill:
         owner: charly-core
         description: |-
             Update image and restart service with data sync — `charly update`, pulling new image versions, data seeding, force-seed, or updating deployed services. Named `charly-update` (not `update`).
+
         content: |
             # charly update -- Update Image and Restart
 
@@ -1300,6 +1310,7 @@ charly-update-skill:
             - `/charly-core:charly-status` -- check service status after update
 
             Live-deploy verification: see /charly-check:check (the 11 Testing Standards) and /charly-internals:disposable.
+
 charly-version-skill:
     skill:
         name: charly-version
@@ -1307,6 +1318,7 @@ charly-version-skill:
         owner: charly-core
         description: |-
             Show charly CLI version information — `charly version` or checking the installed charly version. Named `charly-version` (not `version`).
+
         content: |
             # charly version -- CLI Version
 
@@ -1354,6 +1366,7 @@ charly-version-skill:
             - `/charly-check:check` — declarative testing framework (Gotcha #5 covers the stdout rule)
             - `/charly-build:charly-mcp-cmd` — MCP server section explains why the stream choice matters for the capture pipeline
             - `/charly-internals:go` — `charly/version.go` CalVer computation; `main.go` `VersionCmd.Run` using `fmt.Println`
+
 clean-skill:
     skill:
         name: clean
@@ -1361,6 +1374,7 @@ clean-skill:
         owner: charly-core
         description: |-
             Prune reusable build artifacts to defaults: retention (images, check runs) and sweep one-time makepkg leftovers — `charly clean`, keep_images/keep_check_runs, image-tag pruning, .check run cleanup.
+
         triggers:
             - "`charly clean` / build-artifact retention / `keep_images` / `keep_check_runs` / image-tag pruning / `.check` run cleanup"
         content: |
@@ -1578,6 +1592,7 @@ clean-skill:
             - `/charly-check:check` — `charly check run` + the `keep_check_runs` auto-prune.
             - `/charly-vm:vm` — `charly vm destroy --disk` for VM disk removal.
             - `/charly-image:image` — the `defaults:` block where retention keys live.
+
 cmd-skill:
     skill:
         name: cmd
@@ -1585,6 +1600,7 @@ cmd-skill:
         owner: charly-core
         description: |-
             Single command execution in a running container with D-Bus notification — `charly cmd`, running commands in containers, container exec with notifications.
+
         content: |
             # charly cmd -- Single Command Execution
 
@@ -1634,6 +1650,7 @@ cmd-skill:
             - `/charly-core:shell` -- Interactive shell sessions with workspace mounts
             - `/charly-check:dbus` -- D-Bus interaction inside containers
             - `/charly-automation:tmux` -- Typed persistent terminal sessions for long-running commands
+
 deploy-skill:
     skill:
         name: deploy
@@ -1641,9 +1658,10 @@ deploy-skill:
         owner: charly-core
         description: |-
             `charly fleet add`/`charly fleet del`, quadlet generation, volume backing, tunnels (Tailscale/Cloudflare), `add_candy:` overlay, or per-machine deploy overlays.
+
         triggers:
             - "`charly fleet add/del` / pod or container deploys"
-            - "`kind: android` device / `target: android` deploy / `apk:` package format in candies / installing Android apps declaratively / remote-or-emulator adb endpoint / nested `pod → android`"
+            - "`kind: android` device / `target: android` deploy / `apk:` package format in candies / installing Android apps declaratively / remote-or-emulator adb endpoint / nested `pod \u2192 android`"
             - "Disposable-flag semantics / `disposable: true` authorization / preemptible-flag / `requires_exclusive:` / `charly preempt` / exclusive host-resource arbitration (GPU passthrough contention)"
         content: |
             # Deploy - Deployment Configuration
@@ -2872,6 +2890,7 @@ deploy-skill:
             Previous step: `/charly-build:build` (build the image). Next step: `/charly-core:service` (start, status, logs).
 
             Live-deploy verification: see /charly-check:check (the 11 Testing Standards) and /charly-internals:disposable.
+
 logs-skill:
     skill:
         name: logs
@@ -2879,6 +2898,7 @@ logs-skill:
         owner: charly-core
         description: |-
             Service log viewing for running containers — `charly logs`, viewing container output, debugging service issues.
+
         content: |
             # charly logs -- Service Log Viewing
 
@@ -2935,6 +2955,7 @@ logs-skill:
             - `/charly-core:charly-status` -- Check service status
             - `/charly-core:service` -- Service lifecycle management
             - `/charly-core:start` -- Starting services
+
 remove-skill:
     skill:
         name: remove
@@ -2942,6 +2963,7 @@ remove-skill:
         owner: charly-core
         description: |-
             Remove service container, quadlet file, and charly.yml entry — `charly remove`, cleaning up containers, removing quadlets, purging volumes.
+
         content: |
             # charly remove -- Remove Service Container
 
@@ -3014,6 +3036,7 @@ remove-skill:
             - `/charly-core:deploy` -- Deploy.yml management, tunnel configuration
             - `/charly-core:service` -- Full service lifecycle
             - `/charly-build:charly-mcp-cmd` -- after `charly config remove` cleans this instance's `mcp_provide` from the global `provides.mcp:` list, consumers' `CHARLY_MCP_SERVERS` no longer lists it; use `charly check live <consumer> --filter mcp` to confirm the cleanup propagated
+
 service-skill:
     skill:
         name: service
@@ -3021,6 +3044,7 @@ service-skill:
         owner: charly-core
         description: |-
             `charly start/stop/status/logs/update/remove`, charly config (deployment), init system service management, or container lifecycle.
+
         content: |
             # Service - Service Management
 
@@ -3383,6 +3407,7 @@ service-skill:
 
             **Workflow position:** After `/charly-build:build` and `/charly-core:deploy`. This skill covers the runtime lifecycle.
             Previous step: `/charly-core:deploy` (quadlet generation, tunnels). Next step: per-pod plugin (`/charly-jupyter:<name>`, `/charly-coder:<name>`, etc.) or `/charly-distros:<name> / /charly-languages:<name> / /charly-infrastructure:<name> / /charly-tools:<name>` for verification.
+
 shell-skill:
     skill:
         name: shell
@@ -3390,6 +3415,7 @@ shell-skill:
         owner: charly-core
         description: |-
             `charly shell`, interactive shells, command execution in containers, workspace mounts, TTY allocation, or port relay.
+
         content: |
             # Shell - Shell & Execution
 
@@ -3607,6 +3633,7 @@ shell-skill:
             **MUST be invoked** when the task involves charly shell command, interactive shells, command execution in containers, workspace mounts, TTY allocation, or port relay. Invoke this skill BEFORE reading source code or launching Explore agents.
 
             **Workflow position:** Any time. Interactive access to running or stopped containers.
+
 ssh-skill:
     skill:
         name: ssh
@@ -3614,6 +3641,7 @@ ssh-skill:
         owner: charly-core
         description: |-
             Generic SSH support for Charly — host-alias remote execution or `charly ssh tunnel` access to remote SPICE and VNC endpoints.
+
         content: |
             MUST be invoked before any work involving: `charly --host <alias|target>`
             remote execution, `charly ssh tunnel` port forwarding for external SPICE/VNC
@@ -3716,6 +3744,7 @@ ssh-skill:
             - `/charly-check:spice` — the declarative `spice:` check verb; the host resolves the VM's SPICE endpoint (honoring `CHARLY_LIBVIRT_URI` for a remote hypervisor).
             - `/charly-check:libvirt` — the declarative `libvirt:` check verb served out-of-process by candy/plugin-vm; honors `CHARLY_LIBVIRT_URI` for a remote hypervisor.
             - `/charly-check:vnc` — the declarative `vnc:` check verb (served out-of-process by candy/plugin-vnc); the host pre-resolves the RFB endpoint for pod AND vm targets (a VM's libvirt VNC via bridge/tunnel).
+
 start-skill:
     skill:
         name: start
@@ -3723,6 +3752,7 @@ start-skill:
         owner: charly-core
         description: |-
             Start a container as a background service — `charly start`, launching containers, quadlet vs direct mode startup, encrypted volume auto-mounting.
+
         content: |
             # charly start -- Start Container Service
 
@@ -3840,6 +3870,7 @@ start-skill:
             - `/charly-build:build` -- Build the image you intend to start
 
             Live-deploy verification: see /charly-check:check (the 11 Testing Standards) and /charly-internals:disposable.
+
 stop-skill:
     skill:
         name: stop
@@ -3847,6 +3878,7 @@ stop-skill:
         owner: charly-core
         description: |-
             Stop a running service container — `charly stop`, stopping containers, halting services.
+
         content: |
             # charly stop -- Stop Service Container
 
@@ -3900,3 +3932,4 @@ stop-skill:
             - `/charly-core:start` -- Start services
             - `/charly-core:remove` -- Remove containers, quadlets, and deploy config
             - `/charly-core:charly-status` -- Check service status
+
