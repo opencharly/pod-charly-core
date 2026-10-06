@@ -25,18 +25,37 @@ charly-core:
                 # NO row, so a session following R0 cannot discover it. This check fails if
                 # any non-agent skill entity in this repo lacks triggers — the coverage that
                 # would fail without the authoring in the same change.
+                #
+                # Stdlib only (no PyYAML): the entity blocks are read with a small line
+                # scanner, so the check adds NO runtime dependency.
                 python3 - <<'PY'
-                import sys, yaml
-                doc = yaml.safe_load(open("charly.yml", encoding="utf-8"))
+                import re, sys
+                lines = open("charly.yml", encoding="utf-8").read().split("\n")
                 missing = []
-                for k, v in (doc or {}).items():
-                    if not isinstance(v, dict):
-                        continue
-                    b = v.get("skill")
-                    if not isinstance(b, dict) or b.get("type") == "agent":
-                        continue
-                    if not b.get("triggers"):
-                        missing.append(b.get("name") or k)
+                i = 0
+                while i < len(lines):
+                    if lines[i].rstrip() == "    skill:":
+                        name = typ = None
+                        has = False
+                        j = i + 1
+                        while j < len(lines):
+                            l = lines[j]
+                            if l.strip() and not l.startswith("        "):
+                                break
+                            m = re.match(r'^        name: (\S+)', l)
+                            if m:
+                                name = m.group(1)
+                            m = re.match(r'^        type: (\S+)', l)
+                            if m:
+                                typ = m.group(1)
+                            if l.rstrip() == "        triggers:":
+                                has = True
+                            j += 1
+                        if typ != "agent" and name and not has:
+                            missing.append(name)
+                        i = j
+                    else:
+                        i += 1
                 if missing:
                     print("skill entities WITHOUT triggers (no dispatcher row):", ", ".join(sorted(missing)))
                     sys.exit(1)
