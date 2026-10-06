@@ -14,6 +14,34 @@ charly-core:
               context:
                 - build
               command: "true"
+            - check: every non-agent `skill:` entity in this file carries `triggers:`
+              id: charly-core-triggers-present
+              context:
+                - build
+              command: |
+                set -euo pipefail
+                # `charly marketplace generate` emits ONE dispatcher row per `type: skill`
+                # entity with a non-empty `triggers:`; a skill with no triggers contributes
+                # NO row, so a session following R0 cannot discover it. This check fails if
+                # any non-agent skill entity in this repo lacks triggers — the coverage that
+                # would fail without the authoring in the same change.
+                python3 - <<'PY'
+                import sys, yaml
+                doc = yaml.safe_load(open("charly.yml", encoding="utf-8"))
+                missing = []
+                for k, v in (doc or {}).items():
+                    if not isinstance(v, dict):
+                        continue
+                    b = v.get("skill")
+                    if not isinstance(b, dict) or b.get("type") == "agent":
+                        continue
+                    if not b.get("triggers"):
+                        missing.append(b.get("name") or k)
+                if missing:
+                    print("skill entities WITHOUT triggers (no dispatcher row):", ", ".join(sorted(missing)))
+                    sys.exit(1)
+                print("every non-agent skill entity carries triggers")
+                PY
 
 charly-config-skill:
     skill:
