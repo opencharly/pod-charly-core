@@ -1564,7 +1564,7 @@ clean-skill:
             charly-labeled dangling sweep via `pruneDanglingImages`/`selectDanglingImages`
             (`candy/plugin-clean/retention.go`) parameterized by an `onlyCharly` bool: `pruneDanglingCharlyImages`
             (onlyCharly=true, the default sweep) and `pruneDeepDanglingImages` (onlyCharly=false, `--deep`)
-            are both thin wrappers over the ONE shared selection + removal engine (R3 — no duplicated
+            are both thin wrappers over the ONE shared selection + removal engine (R2 — no duplicated
             listing/removal logic between the two categories). The engine is reached two ways: `charly
             clean`'s own CLI calls `runRetention` in-package (no wire hop); the three OTHER callers reach
             `verb:retention` — the build command's post-build prune (`candy/plugin-box/box.go`'s
@@ -2818,7 +2818,7 @@ deploy-skill:
               a hard load error) and carry **no `.`** (same rules as nested-member keys + bed
               names); the author keeps member **host ports disjoint** (the loader does not check
               ports — port absence, i.e. auto-allocation, avoids fixed-port collisions).
-            - **One shared lifecycle (R3).** `BringUpMembers` / `TearDownMembers` (`sdk/deploykit/deploy_members.go`)
+            - **One shared lifecycle (R2).** `BringUpMembers` / `TearDownMembers` (`sdk/deploykit/deploy_members.go`)
               bring members up after the owner and tear them down with it, by shelling out to the
               SAME verbs — a pod member via `charly config` + `charly start` (+ readiness wait), a
               non-pod member via `charly deploy add` / `charly deploy del`. Wired into `charly deploy add` /
