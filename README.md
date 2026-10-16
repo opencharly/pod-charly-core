@@ -30,7 +30,8 @@ Skills owned here:
 ## How to use it
 
 This repo is consumed as a **skill source**, not as an image layer. Edit a
-skill's file in `.agents/skills/<name>/`; the marketplace regeneration projects it into
+skill's file in `.agents/skills/<name>/`, with its node in `charly.yml` carrying the routing;
+the marketplace regeneration projects both into
 the matching `/charly-core:<name>` page. To reference the repo directly, compose
 it in a box. A box is a `candy:` node carrying the box's `base:` image and a
 nested `candy:` list of layer refs:
