@@ -3,16 +3,20 @@
 Standalone repo for the `charly-core` concept candy — it ships no install
 content and owns the core family's `skill:` entities (the command documentation
 for the core `charly` CLI surface). The entities live in `charly.yml` at the
-repo root; `candy/plugin-marketplace` regenerates the standalone
-opencharly/marketplace corpus from them.
+repo root and each skill's BODY lives beside it, in `.agents/skills/<name>/SKILL.md`;
+`candy/plugin-marketplace` regenerates the standalone opencharly/marketplace
+corpus from them.
 
 Canonical files:
 
 - `charly.yml` — the `charly-core:` concept candy entity plus the family's
-  `skill:` entities (`charly-config-skill`, `charly-doctor-skill`,
+  `skill:` routing nodes (`charly-config-skill`, `charly-doctor-skill`,
   `charly-status-skill`, `charly-update-skill`, `charly-version-skill`,
   `clean-skill`, `cmd-skill`, `deploy-skill`, `logs-skill`, `remove-skill`,
-  `service-skill`, `shell-skill`, `ssh-skill`, `start-skill`, `stop-skill`).
+  `service-skill`, `shell-skill`, `ssh-skill`, `start-skill`, `stop-skill`), each
+  carrying `name`/`family`/`owner`/`triggers` and no body.
+- `.agents/skills/<name>/SKILL.md` — the 15 skill BODIES, one directory per node's
+  `name:`. The files are the source of record for the prose.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
 - `CHANGELOG/` — per-CalVer history.
 - `README.md` — user overview only; never agent guidance.
@@ -47,9 +51,10 @@ Canonical files:
 
 ## Modify this repo
 
-- The `skill:` entities are the projected usage sources. Edit them here, never
-  the generated `SKILL.md` in the marketplace corpus; a corpus regeneration
-  (`charly marketplace generate`) projects them.
+- Edit a skill's `SKILL.md` under `.agents/skills/<name>/` for the prose, or its
+  node in `charly.yml` for the routing — never the generated `SKILL.md` in the
+  marketplace corpus; a corpus regeneration (`charly marketplace generate`)
+  projects both.
 - Keep each entity's `name` / `family` / `owner` fields and the projection path
   (`marketplace/core/skills/<name>/`) consistent; a rename must sweep every
   `/charly-core:<old>` cross-reference in the same change.
