@@ -261,7 +261,7 @@ pod   jupyter                      stopped  8888                  tailscale (all
   `127.0.0.1:H:C/proto` form parses correctly.
 - **TUNNEL**: `provider (all ports)` / `provider (ports H,H,H)` /
   `provider` / `-`. Read from `charly.yml` only — tunnel config is
-  deploy-yml-only (see `labels.go:238`).
+  deploy-yml-only (see `sdk/deploykit/capabilities.go`).
 - **DEVICES**: Compact tokens (`gpu`, `dri`, `kvm`, `fuse`, `tun`),
   sorted alphabetically.
 - **TOOLS**: Live-probed tools with actual host ports, sorted
