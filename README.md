@@ -1,67 +1,42 @@
-# charly-core
+# charly-core — retired
 
-The `charly-core` family — the owning skill source for the core `charly` command
-surface.
+> **RETIRED — this repo publishes nothing.** All 15 `core`-family skills live in the
+> repo that holds the code, plugin or config each one documents (the table below).
+> Nothing is authored, built, deployed or consumed here: a change to a `core`-family
+> skill is a change at its destination repo, in the same pull request as the entity it
+> documents.
 
-This is a **concept candy**: it ships no install content and owns the core
-family's `skill:` entities. Each skill's body lives beside it, in
-`.agents/skills/<name>/SKILL.md`, and its node in `charly.yml` carries the routing
-metadata; both are projected by `candy/plugin-marketplace` into the standalone
-[opencharly/marketplace](https://github.com/opencharly/marketplace) corpus as a
-`/charly-core:<name>` page — the command documentation for the core `charly`
-CLI surface.
+**This repo no longer authors a skill.** It was the `charly-core` concept candy: a `true`-no-op `plan:` and 15 `skill:` entities, with the prose in `.agents/skills/`.
+Under `AGENTS.md` Part II #5 a skill lives in the repo whose code,
+plugin or config it describes — and this repo holds none of them (measured before the
+change: **0 `.go`, 0 `.cue`, no `candy/` directory**) — so 15 of them moved, byte-identically,
+to the repo that does:
 
-## What it provides
+| Skill | Now authored in | The entity that owns it |
+|---|---|---|
+| `charly-version` | [`opencharly/charly`](https://github.com/opencharly/charly) | the CLI itself — the only core skill with no `command:` provider in the org |
+| `clean` | [`opencharly/plugin-clean`](https://github.com/opencharly/plugin-clean) | the `command:clean` provider |
+| `cmd` | [`opencharly/plugin-cmd`](https://github.com/opencharly/plugin-cmd) | the `command:cmd` provider |
+| `charly-doctor` | [`opencharly/plugin-doctor`](https://github.com/opencharly/plugin-doctor) | the `command:doctor` provider |
+| `deploy` | [`opencharly/plugin-fleet`](https://github.com/opencharly/plugin-fleet) | the `command:deploy` provider |
+| `charly-config`, `charly-update`, `logs`, `remove`, `service`, `shell`, `start`, `stop` | [`opencharly/plugin-pod`](https://github.com/opencharly/plugin-pod) | the `command:` providers that serve these verbs |
+| `ssh` | [`opencharly/plugin-ssh`](https://github.com/opencharly/plugin-ssh) | the `command:ssh` provider |
+| `charly-status` | [`opencharly/plugin-status`](https://github.com/opencharly/plugin-status) | the `command:status` provider |
+
+**The addresses did not change.** Every skill keeps its `core` family at its
+destination node, so `/charly-core:<skill>` still resolve — they are simply authored
+where the entity is implemented. The move is the rule `AGENTS.md` Part II #5 states, tracked
+in [opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600).
+
+## What remains here
 
 | Property | Value |
 |---|---|
-| Layer / candy | `charly-core` (concept candy) |
+| Layer / candy | `charly-core` (drained concept candy) |
 | Install content | none — a `true` no-op `plan:` |
-| Owns | the core `skill:` entities listed below |
-| Projected to | `marketplace/core/skills/` |
+| Owns | nothing — 0 `skill:` entities |
 | Service / port | none |
 
-Skills owned here:
-
-`charly-config`, `charly-doctor`, `charly-status`, `charly-update`,
-`charly-version`, `clean`, `cmd`, `deploy`, `logs`, `remove`, `service`,
-`shell`, `ssh`, `start`, `stop`.
-
-## How to use it
-
-This repo is consumed as a **skill source**, not as an image layer. Edit a
-skill's file in `.agents/skills/<name>/`, with its node in `charly.yml` carrying the routing;
-the marketplace regeneration projects both into
-the matching `/charly-core:<name>` page. To reference the repo directly, compose
-it in a box. A box is a `candy:` node carrying the box's `base:` image and a
-nested `candy:` list of layer refs:
-
-```yaml
-my-box:
-  candy:                  # the box body (an IMAGE is a `candy:` node carrying `base:`)
-    base: fedora          # the box's base image
-    candy:                # the box's composition list
-      - '@github.com/opencharly/pod-charly-core:v2026.243.2149'
-```
-
-The runtime commands the skills document are provided by the `charly` binary
-itself (the `/charly-tools:charly` candy), not by this repo.
-
-## Layout
-
-- `charly.yml` — the `charly-core:` concept candy entity plus the family's
-  `skill:` routing nodes (`charly-config-skill`, `deploy-skill`, …).
-- `.agents/skills/<name>/SKILL.md` — the 15 skill bodies, one directory per node's
-  `name:`.
-- `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
-- `CHANGELOG/` — per-CalVer history.
-- `README.md` — this user overview.
-
-## Related
-
-- Owning skills: `/charly-core:charly-config`, `/charly-core:deploy`,
-  `/charly-core:service`, and the rest of the family.
-- Deploy schema: `/charly-pod:pod`.
-- [`opencharly/marketplace`](https://github.com/opencharly/marketplace) — the projected corpus
-- [`opencharly/charly`](https://github.com/opencharly/charly) — the charly CLI and image builder
-- [`opencharly/opencharly`](https://github.com/opencharly/opencharly) — the umbrella
+Do not compose, reference or edit this repo: the skills, their routing nodes and their
+prose all live at the destinations above, and this repo's retirement is tracked in
+[opencharly/opencharly#600](https://github.com/opencharly/opencharly/issues/600).

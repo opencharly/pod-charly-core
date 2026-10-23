@@ -1,72 +1,45 @@
-# AGENTS.md — pod-charly-core
+# AGENTS.md — pod-charly-core (retired)
 
-Standalone repo for the `charly-core` concept candy — it ships no install
-content and owns the core family's `skill:` entities (the command documentation
-for the core `charly` CLI surface). The entities live in `charly.yml` at the
-repo root and each skill's BODY lives beside it, in `.agents/skills/<name>/SKILL.md`;
-`candy/plugin-marketplace` regenerates the standalone opencharly/marketplace
-corpus from them.
+This repo is **retired**: it authors nothing and must not be edited except to
+record a further move. It was the `charly-core` concept candy — a `true`-no-op
+`plan:` plus 15 `skill:` routing nodes with their prose in `.agents/skills/`.
+Under `AGENTS.md` Part II #5 a skill lives in the repo whose code, plugin or
+config it describes, and none of them lived here, so every skill moved
+byte-identically to the repo that holds the entity it documents:
+
+- `charly-version` → `opencharly/charly`;
+- `clean` → `opencharly/plugin-clean`;
+- `cmd` → `opencharly/plugin-cmd`;
+- `charly-doctor` → `opencharly/plugin-doctor`;
+- `deploy` → `opencharly/plugin-fleet`;
+- `charly-config`, `charly-update`, `logs`, `remove`, `service`, `shell`, `start`, `stop` → `opencharly/plugin-pod`;
+- `ssh` → `opencharly/plugin-ssh`;
+- `charly-status` → `opencharly/plugin-status`;
+
+The `/charly-core:<skill>` addresses are unchanged: family `core` is carried by the
+destination nodes, so the dispatcher rows did not move meaning.
 
 Canonical files:
 
-- `charly.yml` — the `charly-core:` concept candy entity plus the family's
-  `skill:` routing nodes (`charly-config-skill`, `charly-doctor-skill`,
-  `charly-status-skill`, `charly-update-skill`, `charly-version-skill`,
-  `clean-skill`, `cmd-skill`, `deploy-skill`, `logs-skill`, `remove-skill`,
-  `service-skill`, `shell-skill`, `ssh-skill`, `start-skill`, `stop-skill`), each
-  carrying `name`/`family`/`owner`/`triggers` and no body.
-- `.agents/skills/<name>/SKILL.md` — the 15 skill BODIES, one directory per node's
-  `name:`. The files are the source of record for the prose.
+- `charly.yml` — the drained `charly-core:` candy entity: a `true` no-op `plan:`
+  plus a `true` no-op `check:` (it asserts nothing; it is a placeholder step). It
+  exists only so this repo validated as a project before retirement.
+- `README.md` — user overview only; never agent guidance; it is the destination map.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
-- `CHANGELOG/` — per-CalVer history.
-- `README.md` — user overview only; never agent guidance.
-
-## Load these skills first (R0)
-
-- The owning skill for the command you are changing, e.g.
-  `/charly-core:charly-config`, `/charly-core:deploy`, `/charly-core:service`,
-  `/charly-core:start`, `/charly-core:stop`, `/charly-core:shell`,
-  `/charly-core:logs`, `/charly-core:remove`, `/charly-core:ssh`,
-  `/charly-core:cmd`, `/charly-core:clean`, `/charly-core:charly-status`,
-  `/charly-core:charly-doctor`, `/charly-core:charly-update`,
-  `/charly-core:charly-version`. Load the one whose `skill:` entity you are
-  editing.
-- `/charly-internals:skills` — the skill maintenance rules (author on the
-  entity, regenerate the corpus, never hand-edit a projected `SKILL.md`).
-- `/charly-pod:pod` — the `kind: pod` / deploy schema the `deploy` skill
-  references.
-- `/charly-internals:git-workflow` — before any git/PR action.
-
-## Build / validate / test
-
-- `charly box validate` at the repo root — the structural check: the manifest
-  must parse and validate at the installed charly.
-- The merge gate is the **org-wide** `charly/pr-validator` (required check
-  `validate / validate`, defined in `opencharly/.github`); this repo has **no**
-  per-repo candy gate. Its only workflow file is
-  `.github/workflows/tag-on-merge.yml`.
-- The candy is documentation-only: its `plan:` is a `true` no-op plus a `true`
-  `check:` that the skill entities are present and generated into the
-  marketplace. There is no live bed.
 
 ## Modify this repo
 
-- Edit a skill's `SKILL.md` under `.agents/skills/<name>/` for the prose, or its
-  node in `charly.yml` for the routing — never the generated `SKILL.md` in the
-  marketplace corpus; a corpus regeneration (`charly marketplace generate`)
-  projects both.
-- Keep each entity's `name` / `family` / `owner` fields and the projection path
-  (`marketplace/core/skills/<name>/`) consistent; a rename must sweep every
-  `/charly-core:<old>` cross-reference in the same change.
-- Keep the concept candy's `plan:` no-op; it exists only to carry the entities.
+- Don't. There is no skill, node or prose here to update. A change to a
+  `core`-family skill is a change at its destination repo, in the same pull
+  request as the entity it documents.
 
 ## Landing
 
 - PR-only. Every change lands through a pull request; the org-required
-  `charly/pr-validator` validates the diff and body and arms native auto-merge
-  on PASS. Direct pushes to `main` are blocked.
-- History lives in `CHANGELOG/` (written by `tag-on-merge` at merge time); the
-  PR body IS the changelog.
+  `charly/pr-validator` validates the diff and body and arms native auto-merge on
+  PASS. Direct pushes to `main` are blocked.
+- History lives in `CHANGELOG/` (written by `tag-on-merge` at merge time); the PR
+  body IS the changelog.
 - The authoritative rulebook is the umbrella `AGENTS.md` in
   `opencharly/opencharly` and `charly/AGENTS.md` in the charly repo. Do not
   restate its rules here.
