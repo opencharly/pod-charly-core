@@ -1,98 +1,19 @@
 charly-core:
     candy:
         description: |-
-            Concept candy owning the charly-core command skills (start/stop/status/logs/shell/ssh/deploy/…). Owns its family's `skill:` kind entities (sibling nodes in this file) — the
-            the plugins→candies migration; candy/plugin-marketplace regenerates the marketplace
-            corpus (the standalone opencharly/marketplace repo) from them.
+            Drained concept candy — kept only so this repo still validates as a project while
+            it awaits retirement (opencharly/opencharly#600). It owns NO `skill:` entity any
+            more: under AGENTS.md Part II #5 the 15 `core` family skills moved,
+            byte-identically, to the repositories that hold the code, plugin or config each one
+            documents — `charly`, `plugin-clean`, `plugin-cmd`, `plugin-doctor`, `plugin-fleet`, `plugin-pod`, `plugin-ssh`, `plugin-status`.
+            Nothing is authored here now.
         plan:
-            - run: this documentation-only candy ships no install content (it carries the family's skill/hook/marketplace entities); validate-satisfying no-op
+            - run: this documentation-only candy ships no install content (it carried the family's skill entities); validate-satisfying no-op
               command: "true"
               context:
                 - build
-            - check: the core concept candy's skill entities are present and generated into the marketplace's core/skills
-              id: charly-core-present
+            - check: no-op — this drained candy declares no skill node; every core-family skill lives in the repo that holds the entity it documents
+              id: charly-core-drained
               context:
                 - build
               command: "true"
-
-charly-config-skill:
-    skill:
-        name: charly-config
-        family: core
-        owner: charly-core
-charly-doctor-skill:
-    skill:
-        name: charly-doctor
-        family: core
-        owner: charly-core
-charly-status-skill:
-    skill:
-        name: charly-status
-        family: core
-        owner: charly-core
-charly-update-skill:
-    skill:
-        name: charly-update
-        family: core
-        owner: charly-core
-charly-version-skill:
-    skill:
-        name: charly-version
-        family: core
-        owner: charly-core
-clean-skill:
-    skill:
-        name: clean
-        family: core
-        owner: charly-core
-        triggers:
-            - "`charly clean` / build-artifact retention / `keep_images` / `keep_check_runs` / image-tag pruning / `.check` run cleanup"
-cmd-skill:
-    skill:
-        name: cmd
-        family: core
-        owner: charly-core
-deploy-skill:
-    skill:
-        name: deploy
-        family: core
-        owner: charly-core
-        triggers:
-            - "`charly deploy add/del` / pod or container deploys"
-            - "`kind: android` device / `target: android` deploy / `apk:` package format in candies / installing Android apps declaratively / remote-or-emulator adb endpoint / nested `pod \u2192 android`"
-            - "Disposable-flag semantics / `disposable: true` authorization / preemptible-flag / `requires_exclusive:` / `charly preempt` / exclusive host-resource arbitration (GPU passthrough contention)"
-logs-skill:
-    skill:
-        name: logs
-        family: core
-        owner: charly-core
-remove-skill:
-    skill:
-        name: remove
-        family: core
-        owner: charly-core
-service-skill:
-    skill:
-        name: service
-        family: core
-        owner: charly-core
-shell-skill:
-    skill:
-        name: shell
-        family: core
-        owner: charly-core
-ssh-skill:
-    skill:
-        name: ssh
-        family: core
-        owner: charly-core
-start-skill:
-    skill:
-        name: start
-        family: core
-        owner: charly-core
-stop-skill:
-    skill:
-        name: stop
-        family: core
-        owner: charly-core
